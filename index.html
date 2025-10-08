@@ -1,1 +1,1004 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía Avanzada - Perceptrón para Detección Cardíaca</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gradient: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --gradient-accent: linear-gradient(135deg, #f72585 0%, #b5179e 100%);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Header Styles */
+        .university-header {
+            background: var(--gradient);
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .university-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><path d="M0 0h100v100H0z" fill="none"/><path d="M20 20h60v60H20z" stroke="white" stroke-width="2" fill="none"/></svg>');
+            background-size: 100px;
+        }
+
+        .university-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .university-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><circle cx="50" cy="50" r="40" stroke="white" stroke-width="2" fill="none"/></svg>');
+            background-size: 150px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Content Layout */
+        .content {
+            padding: 60px 40px;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: white;
+            font-size: 30px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 5px;
+            background: var(--accent);
+            border-radius: 5px;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .team-member {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .member-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--gradient);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+
+        .member-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--secondary);
+        }
+
+        .member-role {
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .member-participation {
+            display: inline-block;
+            background: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: white;
+            font-size: 30px;
+        }
+
+        .feature-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .feature-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Models Section */
+        .models-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .model-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .model-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .model-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gradient-accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .model-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        .model-icon {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .model-details {
+            list-style: none;
+        }
+
+        .model-details li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .model-details li i {
+            color: var(--success);
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+
+        /* Results Section */
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .result-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 20px 0;
+        }
+
+        .result-high {
+            color: #4cc9f0;
+        }
+
+        .result-medium {
+            color: #f8961e;
+        }
+
+        .result-info {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        /* Prediction Demo */
+        .prediction-demo {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prediction-demo::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-accent);
+        }
+
+        .prediction-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .prediction-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-accent);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: white;
+            font-size: 25px;
+        }
+
+        .prediction-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .prediction-result {
+            background: rgba(67, 97, 238, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border-left: 5px solid var(--success);
+        }
+
+        .risk-high {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .risk-low {
+            color: var(--success);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        /* Conclusion Section */
+        .conclusion {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .conclusion::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--success);
+        }
+
+        .conclusion-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        .conclusion-icon {
+            margin-right: 15px;
+            color: var(--success);
+        }
+
+        .conclusion-list {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        .conclusion-list li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .conclusion-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        /* Links Section */
+        .links-section {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .links-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--secondary);
+        }
+
+        .links-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .link-button {
+            display: inline-flex;
+            align-items: center;
+            background: var(--gradient);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+        }
+
+        .link-button:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+            background: var(--gradient-accent);
+        }
+
+        .link-button i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            padding: 40px;
+            margin-top: 80px;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .footer-info {
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .footer-copy {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero h2 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .models-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 20px;
+            }
+            
+            .content {
+                padding: 40px 20px;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .section-icon {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .section-title::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .card-grid, .team-grid, .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- University Header -->
+        <div class="university-header">
+            <h1>UNIVERSIDAD CONTINENTAL</h1>
+            <p>Facultad de Ingeniería - Escuela de Ingeniería de Sistemas e Informática</p>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Perceptrón & Enfermedades Cardíacas</h2>
+                <p>Implementación y análisis de modelos de perceptrón para la detección temprana de enfermedades cardiovasculares</p>
+                <div class="hero-badge floating">
+                    <i class="fas fa-heartbeat"></i> Inteligencia Artificial Aplicada a la Salud
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Introduction Section -->
+            <section class="section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h2 class="section-title">Introducción</h2>
+                </div>
+                <div class="card">
+                    <p>La detección temprana de enfermedades cardíacas es un problema crítico en salud pública. La aplicación de métodos de inteligencia artificial para clasificar individuos con riesgo puede apoyar el diagnóstico médico. En este proyecto, se implementa un Perceptrón simple, la unidad básica de redes neuronales, para predecir la presencia o no de enfermedad cardíaca basándose en múltiples variables clínicas.</p>
+                </div>
+            </section>
+
+            <!-- Team Section -->
+            <section class="section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h2 class="section-title">Integrantes del Grupo</h2>
+                </div>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="member-name">Casilla Mamani Ronaldo</h3>
+                        <div class="member-role">Desarrollador</div>
+                        <div class="member-participation">100% Participación</div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="member-name">Llanos Chacmana Sergio David</h3>
+                        <div class="member-role">Desarrollador</div>
+                        <div class="member-participation">100% Participación</div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="member-name">Merma Maxi Edison Alexis</h3>
+                        <div class="member-role">Desarrollador</div>
+                        <div class="member-participation">100% Participación</div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="member-name">Quinta Quispe Katia Angela</h3>
+                        <div class="member-role">Desarrollador</div>
+                        <div class="member-participation">100% Participación</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dataset Section -->
+            <section class="section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h2 class="section-title">Dataset y Preprocesamiento</h2>
+                </div>
+                <div class="card">
+                    <p>Se utilizó el <strong>Heart Disease Dataset</strong> de Kaggle, que contiene información médica de pacientes para la clasificación binaria de enfermedades cardíacas.</p>
+                </div>
+                
+                <h3 style="margin: 30px 0 20px; color: var(--secondary); font-size: 1.8rem;">Características Principales</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-birthday-cake"></i>
+                        </div>
+                        <h4 class="feature-name">Edad</h4>
+                        <p class="feature-desc">Edad del paciente en años</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-venus-mars"></i>
+                        </div>
+                        <h4 class="feature-name">Sexo</h4>
+                        <p class="feature-desc">Género (0=Femenino, 1=Masculino)</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h4 class="feature-name">Dolor Pecho</h4>
+                        <p class="feature-desc">Tipo de dolor pectoral</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h4 class="feature-name">Presión Arterial</h4>
+                        <p class="feature-desc">Presión arterial en reposo (mmHg)</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <h4 class="feature-name">Colesterol</h4>
+                        <p class="feature-desc">Colesterol sérico (mg/dl)</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h4 class="feature-name">Frecuencia Cardíaca</h4>
+                        <p class="feature-desc">Máxima frecuencia cardíaca alcanzada</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-wave-square"></i>
+                        </div>
+                        <h4 class="feature-name">Depresión ST</h4>
+                        <p class="feature-desc">Depresión del ST inducida por ejercicio</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Models Section -->
+            <section class="section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h2 class="section-title">Modelos de Perceptrón</h2>
+                </div>
+                <div class="models-comparison">
+                    <div class="model-card">
+                        <div class="model-badge">Básico</div>
+                        <h3 class="model-title">
+                            <i class="fas fa-cog model-icon"></i>
+                            Perceptrón 1
+                        </h3>
+                        <ul class="model-details">
+                            <li><i class="fas fa-check-circle"></i> <strong>Tasa de aprendizaje:</strong> 0.01</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Épocas:</strong> 1000</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Características:</strong> 7 variables principales</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Énfasis:</strong> Implementación directa del algoritmo</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="model-card">
+                        <div class="model-badge">Modificado</div>
+                        <h3 class="model-title">
+                            <i class="fas fa-bolt model-icon"></i>
+                            Perceptrón 2
+                        </h3>
+                        <ul class="model-details">
+                            <li><i class="fas fa-check-circle"></i> <strong>Tasa de aprendizaje:</strong> 0.1</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Épocas:</strong> 1000</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Características:</strong> 7 variables principales</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Énfasis:</strong> Impacto de la tasa de aprendizaje</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="model-card">
+                        <div class="model-badge">Variación</div>
+                        <h3 class="model-title">
+                            <i class="fas fa-sliders-h model-icon"></i>
+                            Perceptrón 3
+                        </h3>
+                        <ul class="model-details">
+                            <li><i class="fas fa-check-circle"></i> <strong>Tasa de aprendizaje:</strong> 0.01</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Épocas:</strong> 1000</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Características:</strong> 5 variables alternativas</li>
+                            <li><i class="fas fa-check-circle"></i> <strong>Énfasis:</strong> Impacto de la selección de características</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h2 class="section-title">Resultados y Evaluación</h2>
+                </div>
+                <div class="results-container">
+                    <div class="result-card">
+                        <h3>Perceptrón 1</h3>
+                        <div class="result-value result-high">86%</div>
+                        <p class="result-info">Precisión (Accuracy)</p>
+                        <p>Tasa de aprendizaje: 0.01</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3>Perceptrón 2</h3>
+                        <div class="result-value result-high">86%</div>
+                        <p class="result-info">Precisión (Accuracy)</p>
+                        <p>Tasa de aprendizaje: 0.1</p>
+                    </div>
+                    
+                    <div class="result-card">
+                        <h3>Perceptrón 3</h3>
+                        <div class="result-value result-medium">83%</div>
+                        <p class="result-info">Precisión (Accuracy)</p>
+                        <p>Características diferentes</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Prediction Demo -->
+            <section class="section">
+                <div class="prediction-demo">
+                    <div class="prediction-header">
+                        <div class="prediction-icon">
+                            <i class="fas fa-stethoscope"></i>
+                        </div>
+                        <h2 class="prediction-title">Sistema de Predicción Interactivo</h2>
+                    </div>
+                    <p>El sistema implementado incluye un menú interactivo que permite ingresar datos médicos y obtener una predicción de riesgo cardíaco.</p>
+                    
+                    <div class="prediction-result">
+                        <h3>Ejemplo de Predicción</h3>
+                        <p><strong>Paciente:</strong> 45 años, Masculino</p>
+                        <p><strong>Resultado:</strong> <span class="risk-low">RIESGO BAJO DE ENFERMEDAD CARDÍACA</span></p>
+                        <p><strong>Recomendación:</strong> Mantén hábitos saludables y controles periódicos</p>
+                    </div>
+                    
+                    <p style="margin-top: 20px; font-style: italic; color: #666;">Nota: Esta es una herramienta educativa y no reemplaza el diagnóstico médico profesional.</p>
+                </div>
+            </section>
+
+            <!-- Conclusion -->
+            <section class="section">
+                <div class="conclusion">
+                    <h2 class="conclusion-title">
+                        <i class="fas fa-search conclusion-icon"></i>
+                        Análisis y Conclusiones
+                    </h2>
+                    <p>El análisis comparativo entre los tres modelos de Perceptrón demuestra que tanto la tasa de aprendizaje como la selección de características tienen un impacto directo en el rendimiento y la convergencia del modelo.</p>
+                    
+                    <ul class="conclusion-list">
+                        <li>Una tasa de aprendizaje baja (0.01) produce una convergencia más lenta pero estable</li>
+                        <li>Una tasa más alta (0.1) acelera el aprendizaje y mejora la precisión final</li>
+                        <li>La selección de características influye significativamente en la capacidad predictiva</li>
+                        <li>El Perceptrón es un modelo adecuado para datos con relaciones lineales</li>
+                    </ul>
+                    
+                    <p>El Perceptrón ofrece un excelente equilibrio entre rendimiento, simplicidad y capacidad de generalización para problemas de clasificación médica.</p>
+                </div>
+            </section>
+
+            <!-- Links -->
+            <section class="links-section">
+                <h2 class="links-title">Enlaces del Proyecto</h2>
+                <div class="links-container">
+                    <a href="https://colab.research.google.com/drive/18OT9FhSvXZfTHlAxm8a tBuNxPtU 1m8?usp=sharing" class="link-button" target="_blank">
+                        <i class="fab fa-google"></i> Código en Colab
+                    </a>
+                    <a href="https://github.com/kAngela-1573/Enfermedades-Cardiacas" class="link-button" target="_blank">
+                        <i class="fab fa-github"></i> Repositorio GitHub
+                    </a>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">CODE4</div>
+                <div class="footer-info">
+                    <p>Asignatura: Construcción de Software | Docente: Hugo Espetia Huamanga | NRC: 17205</p>
+                </div>
+                <div class="footer-copy">
+                    <p>Proyecto de Implementación y Análisis de Perceptrones - Grupo Code4</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
